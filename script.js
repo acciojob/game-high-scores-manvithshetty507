@@ -12,15 +12,17 @@ function saveScore() {
         return;
     }
 
-    const existingScore = parseInt(localStorage.getItem('score')) || 0;
+    const existingScoreData = JSON.parse(localStorage.getItem('score')) || ['', 0];
+    const existingName = existingScoreData[0];
+    const existingScore = existingScoreData[1];
 
     // Check if the new score is higher than the previous highest score
     if (newScore > existingScore) {
         // Save the new score
-        localStorage.setItem('score', newScore);
-        scores.textContent = newScore;
+        localStorage.setItem('score', JSON.stringify([nameInput.value, newScore]));
+        scores.textContent = nameInput.value + " " + newScore;
     } else {
-        scores.textContent = existingScore;
+        scores.textContent = existingName + " " + existingScore;
     }
 
     // Clear input fields
@@ -32,7 +34,9 @@ function saveScore() {
 
 // Show scores in div
 function showScores() {
-    // You may want to implement logic here to show all scores instead of just the highest one
-    const highestScore = parseInt(localStorage.getItem('score')) || 0;
-    scores.textContent = highestScore;
+    const scoreData = JSON.parse(localStorage.getItem('score')) || ['', 0];
+    const highestScoreName = scoreData[0];
+    const highestScore = scoreData[1];
+    scores.textContent = highestScoreName + " " + highestScore;
 }
+
